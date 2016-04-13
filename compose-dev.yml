@@ -1,0 +1,23 @@
+ttrss:
+  build: .
+  container_name: ttrss
+  ports:
+   - '80:80'
+  links:
+   - postgres:db
+postgres:
+  image: nornagon/postgres
+  container_name: ttrssdb
+  volumes:
+   - ./data:/data
+   # - ./var/lib/postgresql:/var/lib/postgresql
+
+shell:
+  build: .
+  container_name: ttrss_shell
+  command: bash
+  working_dir: /main
+  ports:
+   - '8080:8080'
+  volumes:
+    - /var/lib/postgresql

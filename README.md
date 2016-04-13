@@ -15,22 +15,34 @@ while feeling as close to a real desktop application as possible.
 
 ![](http://tt-rss.org/images/1.9/1.jpg)
 
-## Quickstart
+## Quickstart - Docker-Compose
 
-This section assumes you want to get started quickly, the following sections explain the
-steps in more detail. So let's start.
+This section assumes you want to get started quickly, the following sections explain the steps in more detail. It also assumes that you prefer postgres. If that is not the case, you will want to update docker-compose to use a non-postgres db container.
+
+```
+docker-compose up -d ttrss
+```
+
+This uses the definitions in `docker-compose.yml` and stands up 2 containers, one for database and another for the ttrss web interface.
+
+If you don't want to start it in the background, remove the `-d` part of the command.
+
+
+## Quickstart - docker commands without Docker-Compose
+
+This section assumes you want to get started quickly, the following sections explain the steps in more detail. So let's start.
 
 Just start up a new database container:
 
 ```bash
-$ docker run -d --name ttrssdb nornagon/postgres
+docker run -d --name ttrssdb nornagon/postgres
 ```
 
 And because this docker image is available as a [trusted build on the docker index](https://index.docker.io/u/clue/ttrss/),
 using it is as simple as launching this Tiny Tiny RSS installation linked to your fresh database:
 
 ```bash
-$ docker run -d --link ttrssdb:db -p 80:80 clue/ttrss
+docker run -d --link ttrssdb:db -p 80:80 clue/ttrss
 ```
 
 Running this command for the first time will download the image automatically.
@@ -74,7 +86,7 @@ its database port (5432) to the outside.
 Example with nornagon/postgres:
 
 ```bash
-$ docker run -d --name=tinydatabase nornagon/postgres:latest
+docker run -d --name=tinydatabase nornagon/postgres:latest
 ```
 
 > The image nornagon/postgres exposes a database superuser that this image uses
@@ -97,7 +109,7 @@ its database port (3306) to the outside.
 Example with sameersbn/mysql:
 
 ```bash
-$ docker run -d --name=tinydatabase -e DB_USER=ttrss -e DB_PASS=ttrss -e DB_NAME=ttrss sameersbn/mysql:latest
+docker run -d --name=tinydatabase -e DB_USER=ttrss -e DB_PASS=ttrss -e DB_NAME=ttrss sameersbn/mysql:latest
 ```
 
 > The image sameersbn/mysql does not expose a database superuser,
@@ -171,7 +183,7 @@ This is particular useful for your initial database setup, as errors get reporte
 the console and further execution will halt.
 
 ```bash
-$ docker run -it --link tinydatabase:db -p 80:80 clue/ttrss
+docker run -it --link tinydatabase:db -p 80:80 clue/ttrss
 ```
 
 ### Running ttrss daemonized
@@ -182,5 +194,5 @@ Remaining arguments can be passed just like before, the following is the recomme
 minimum:
 
 ```bash
-$ docker run -d --link tinydatabase:db -p 80:80 clue/ttrss
+docker run -d --link tinydatabase:db -p 80:80 clue/ttrss
 ```
