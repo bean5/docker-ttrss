@@ -1,0 +1,14 @@
+version: '2'
+services:
+    ttrss:
+        image: clue/ttrss
+        container_name: ttrss
+        ports:
+            - '80:80'
+        links:
+            - postgres:db
+    postgres:
+        image: nornagon/postgres
+        container_name: ttrss_db
+        volumes:
+            - ./data/postgresql/:/var/lib/postgresql/
